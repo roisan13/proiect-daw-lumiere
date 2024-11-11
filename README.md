@@ -13,10 +13,10 @@
 - **Recenzii (viitor)**: După vizionarea unui film, utilizatorii vor putea lăsa recenzii și evaluări pentru a ajuta alți spectatori să aleagă filme.
 
 ## URL-uri
-[/users/index](http://lumiere.infy.uk/proiect_daw_lumiere/users/index)
-[/movies/index](http://lumiere.infy.uk/proiect_daw_lumiere/movies/index)
-[/screenings/index](http://lumiere.infy.uk/proiect_daw_lumiere/screenings/index)
-[/screenings/today](http://lumiere.infy.uk/proiect_daw_lumiere/screenings/today)
+[/users/index](http://lumiere.infy.uk/proiect_daw_lumiere/users/index)  
+[/movies/index](http://lumiere.infy.uk/proiect_daw_lumiere/movies/index)  
+[/screenings/index](http://lumiere.infy.uk/proiect_daw_lumiere/screenings/index)  
+[/screenings/today](http://lumiere.infy.uk/proiect_daw_lumiere/screenings/today)  
 
 ### Notă
 
