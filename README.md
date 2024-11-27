@@ -10,7 +10,8 @@
 - **Programări de rulare**: Afișează datele și orele la care sunt proiectate filmele, împreună cu locațiile în sălile cinematografului.
 - **Locuri disponibile**: Utilizatorii pot vedea locurile disponibile pentru fiecare ecranizare și pot selecta locurile dorite.
 - **Rezervare și achiziționare bilete**: Sistemul permite rezervarea locurilor și achiziționarea de bilete direct din platformă.
-- **Recenzii (viitor)**: După vizionarea unui film, utilizatorii vor putea lăsa recenzii și evaluări pentru a ajuta alți spectatori să aleagă filme.
+- **Sugestii filme**: Utilizatorul poate adăuga un film în catalog, ca sugestie pentru cinematograf.
+- **Modificare rezervari**: Posibilitatea de a edita un booking actual, sau de a renunța complet la el.
 
 ## Descrierea arhitecturii aplicației
 
@@ -61,6 +62,7 @@ Aceste relații sunt implementate în baza de date prin utilizarea de chei exter
 [/movies/index](http://lumiere.infy.uk/proiect_daw_lumiere/movies/index)  
 [/screenings/index](http://lumiere.infy.uk/proiect_daw_lumiere/screenings/index)  
 [/screenings/today](http://lumiere.infy.uk/proiect_daw_lumiere/screenings/today)  
+[/users/login](http://lumiere.infy.uk/proiect_daw_lumiere/users/login)  
 
 ### Notă
 
