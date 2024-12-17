@@ -2,13 +2,21 @@
 $routes = [
     "proiect_daw_lumiere/movies/index" => ["MovieController", "index"],
     "proiect_daw_lumiere/movies/add" => ["MovieController", "addMovie"],
+
     "proiect_daw_lumiere/users/index" => ["UserController", "index"],
     "proiect_daw_lumiere/users/login" => ["UserController", "login"],
     "proiect_daw_lumiere/users/home" => ["UserController", "home"],
+    "proiect_daw_lumiere/users/create" => ["UserController", "create"],
+
     "proiect_daw_lumiere/screenings/index" => ["ScreeningController", "index"],
     "proiect_daw_lumiere/screenings/today" => ["ScreeningController", "today"],
+
     "proiect_daw_lumiere/bookings/index" => ["BookingController", "index"],
     "proiect_daw_lumiere/bookings/delete" => ["BookingController", "delete"],
+
+    "proiect_daw_lumiere/auth/login" => ["AuthController", "login"],
+    "proiect_daw_lumiere/auth/logout" => ["AuthController", "logout"],
+    "proiect_daw_lumiere" => ["AuthController", "landing_page"],
 ];
 
 class Router {
