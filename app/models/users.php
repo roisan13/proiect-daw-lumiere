@@ -61,6 +61,26 @@ class User {
         ));
     }
 
+    public static function hasPermission($user_id, $permission_name){
+        global $pdo;
+
+        $sql = "SELECT COUNT(*) as count
+                FROM users us
+                JOIN roles_permissions rp ON us.role_id = rp.role_id
+                JOIN permissions p ON rp.permission_id = p.id
+                WHERE us.id = :user_id and p.name = :permission_name";
+
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->execute(array(
+                ":user_id" => $user_id,
+                ":permission_name" => $permission_name
+        ));
+
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $res["count"] > 0;
+    }
+
 
 }
 

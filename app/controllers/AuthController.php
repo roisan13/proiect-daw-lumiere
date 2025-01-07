@@ -1,6 +1,5 @@
 <?php
 require_once "app/models/users.php";
-
 class AuthController {
 
     public static function login(){

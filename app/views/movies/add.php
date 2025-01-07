@@ -7,6 +7,9 @@
     <title>Add a Movie</title>
 </head>
 <body>
+    <?php if (isset($_SERVER["add_movie_error"])): ?>
+        <p style="color: red;"><?= $_SERVER["add_movie_error"] ?></p>
+    <?php endif; ?>
     <h1>Add a New Movie</h1>
     <form method="post" action="">
         <input type="text" name="title" placeholder="Movie Title" required>

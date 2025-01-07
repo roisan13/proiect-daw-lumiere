@@ -1,3 +1,4 @@
 # Ignore database config file
 config/config.php
 config/keys.php
+vendor/
