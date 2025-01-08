@@ -21,6 +21,81 @@ class Booking{
         $stmt->execute(array(":user_id" => $userId, ":screening_id" => $screeningId, ":seats" => $seats));
     }
 
+    public static function getSeatsByBookingId($bookingId) {
+        global $pdo;
+
+        $sql = "SELECT row_number, seat_number
+                FROM cinema_hall_seats
+                WHERE booking_id = :booking_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':booking_id' => $bookingId]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function bookSeats($userId, $screeningId, $seats) {
+        global $pdo;
+
+        try {
+            $pdo->beginTransaction();
+
+            // Validate seat availability
+            $validateStmt = $pdo->prepare("
+                SELECT is_available
+                FROM cinema_hall_seats 
+                WHERE screening_id = :screening_id AND row_number = :row_number AND seat_number = :seat_number
+            ");
+
+            foreach ($seats as $seat) {
+                $validateStmt->execute([
+                    ':screening_id' => $screeningId,
+                    ':row_number' => $seat['row'],
+                    ':seat_number' => $seat['number']
+                ]);
+
+                $seatStatus = $validateStmt->fetchColumn();
+
+                if ($seatStatus !== 1) {
+                    throw new Exception('One or more seats are no longer available.');
+                }
+            }
+
+            // Insert a new booking
+            $insertBooking = $pdo->prepare("
+                INSERT INTO bookings (user_id, screening_id, number_of_seats)
+                VALUES (:user_id, :screening_id, :seats)
+            ");
+            $insertBooking->execute([
+                ':user_id' => $userId,
+                ':screening_id' => $screeningId,
+                ':seats' => count($seats)
+            ]);
+            $bookingId = $pdo->lastInsertId();
+
+            // Update seat availability and associate with the booking ID
+            $updateStmt = $pdo->prepare("
+                UPDATE cinema_hall_seats 
+                SET is_available = 0, booking_id = :booking_id
+                WHERE screening_id = :screening_id AND row_number = :row_number AND seat_number = :seat_number
+            ");
+
+            foreach ($seats as $seat) {
+                $updateStmt->execute([
+                    ':booking_id' => $bookingId,
+                    ':screening_id' => $screeningId,
+                    ':row_number' => $seat['row'],
+                    ':seat_number' => $seat['number']
+                ]);
+            }
+
+            $pdo->commit();
+
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            throw $e; // Rethrow to handle in controller.
+        }
+    }
+
     public static function deleteBooking($bookingId) {
         global $pdo;
 
@@ -79,10 +154,46 @@ class Booking{
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     }
-    
-    
 
+    public static function getSeatsByScreeningId($screeningId) {
+        global $pdo;
 
+        $sql = "SELECT row_number, seat_number, is_available
+                FROM cinema_hall_seats
+                WHERE screening_id = ?
+                ORDER BY row_number, seat_number";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$screeningId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public static function generateSeats($screeningId, $hallId, $rows, $seatsPerRow) {
+        global $pdo;
+
+        $sql = "INSERT INTO cinema_hall_seats (hall_id, row_number, seat_number, screening_id)
+                VALUES (?, ?, ?, ?)";
+    
+        $stmt = $pdo->prepare($sql);
+
+        for ($row = 1; $row <= $rows; $row++) {
+            for ($seat = 1; $seat <= $seatsPerRow; $seat++) {
+                $stmt->execute([$hallId, $row, $seat, $screeningId]);
+            }
+        }
+    }
+
+    public static function populateSeats($screeningId, $hallId, $rows, $seatsPerRow) {
+        global $pdo;
+    
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM cinema_hall_seats WHERE screening_id = ?");
+        $stmt->execute([$screeningId]);
+        $seatCount = $stmt->fetchColumn();
+    
+        if ($seatCount == 0) {
+            self::generateSeats($screeningId, $hallId, $rows, $seatsPerRow);
+        }
+    }
 }
 
 

@@ -43,6 +43,10 @@
 </head>
 <body>
     <h1>My Bookings</h1>
+    <?php if (isset($_SESSION['book_seat_success'])): ?>
+                <div style="color: green;"><?= htmlspecialchars($_SESSION['book_seat_success']) ?></div>
+                <?php unset($_SESSION['book_seat_success']); ?>
+            <?php endif; ?>
     <?php if (!empty($userBookings)): ?>
         <table>
             <thead>

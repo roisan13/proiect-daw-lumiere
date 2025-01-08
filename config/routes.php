@@ -17,13 +17,12 @@ $routes = [
     "proiect_daw_lumiere/bookings/create" => ["BookingController", "create"],
     "proiect_daw_lumiere/bookings/download" => ["BookingController", "download"],
     "proiect_daw_lumiere/bookings/my" => ["BookingController", "myBookings"],
+    "proiect_daw_lumiere/bookings/seats" => ["BookingController", "selectSeats"],
 
     "proiect_daw_lumiere/auth/login" => ["AuthController", "login"],
     "proiect_daw_lumiere/auth/logout" => ["AuthController", "logout"],
     "proiect_daw_lumiere" => ["AuthController", "landing_page"],
-
     
-
 ];
 
 class Router {

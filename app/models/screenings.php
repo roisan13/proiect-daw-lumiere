@@ -137,6 +137,20 @@ class Screening {
     
         return strtotime(date('Y-m-d', $timestamp) . " $hours:$roundedMinutes:00");
     }
+
+    public static function getScreeningHall($screeningId) {
+        global $pdo;
+
+        $sql = "SELECT * 
+                FROM cinema_halls 
+                WHERE id = (SELECT cinema_hall_id FROM screenings WHERE id = ?)";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$screeningId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+    }
+
     
     
 

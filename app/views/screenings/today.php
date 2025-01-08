@@ -102,17 +102,10 @@
                     <td><?= date("H:i", strtotime($screening["end_time"])) ?></td>
                     <td><?= $screening["hall_name"] ?></td>
                     <td>
-                        <form action="/proiect_daw_lumiere/bookings/create" method="post">
-                            <input type="hidden" name="screening_id" value="<?= $screening['id'] ?>">
-                            <label for="seats">Seats:</label>
-                            <select name="seats" id="seats">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
-                            <button type="submit">Book</button>
-                        </form>
+                    <form action="/proiect_daw_lumiere/bookings/seats" method="get">
+                        <input type="hidden" name="screening_id" value="<?= $screening['id'] ?>">
+                        <button type="submit">Pick Seats</button>
+                    </form>
                     </td>
                 </tr>
             <?php endforeach; ?>
